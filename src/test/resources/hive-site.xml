@@ -1,0 +1,32 @@
+<configuration>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.url</name>
+        <value>ldap://192.168.50.142:1389</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-bind-pattern</name>
+        <value>cn=${USER},ou=users,dc=org</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-base-dn</name>
+        <value>ou=users,dc=org</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.group-auth-pattern</name>
+        <value>(&amp;(memberOf=cn=trino,ou=channel,dc=org)(objectClass=inetOrgPerson)(cn=${USER}))</value>
+<!--        <value>(&amp;(|(memberOf=cn=hive,ou=channel,dc=org)(memberOf=cn=trino,ou=channel,dc=org))(cn=${USER},ou=users,dc=org))</value>-->
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.bind-dn</name>
+        <value>cn=admin,dc=org</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.bind-password</name>
+        <value>admin123</value>
+    </property>
+</configuration>
