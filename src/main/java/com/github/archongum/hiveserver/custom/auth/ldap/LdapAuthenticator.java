@@ -105,6 +105,22 @@ public class LdapAuthenticator {
         return new BasicPrincipal(user);
     }
 
+    public Principal authenticateWithBindDistinguishedNameWithoutMemberOf(String user, String password) throws AuthenticationException {
+        if (containsSpecialCharacters(user)) {
+            throw new AuthenticationException("Username contains a special LDAP character");
+        }
+        try {
+            if(isMemberInGroups(user)) {
+                return authenticateWithUserBind(user, password);
+            }
+        }
+        catch (NamingException e) {
+            log.warn("Authentication failed for user [{}], {}", user, e.getMessage());
+            throw new RuntimeException("Authentication error");
+        }
+        return new BasicPrincipal(user);
+    }
+
     /**
      * Returns {@code true} when parameter contains a character that has a special meaning in
      * LDAP search or bind name (DN).
@@ -137,6 +153,19 @@ public class LdapAuthenticator {
             throw new AuthenticationException(message);
         }
         return getOnlyElement(userDistinguishedNames);
+    }
+
+    private boolean isMemberInGroups(String user) throws NamingException, AuthenticationException {
+        String searchBase = userBaseDistinguishedName.get();
+        String searchFilter = replaceUser(groupAuthorizationSearchPattern.get(), user);
+        Set<String> userDistinguishedNames = client.lookupUserDistinguishedNames(searchBase, searchFilter, bindDistinguishedName.get(), bindPassword.get());
+
+        if (userDistinguishedNames.isEmpty()) {
+            String message = format("User [%s] not a member of an authorized group", user);
+            log.info("{}", message);
+            throw new AuthenticationException(message);
+        }
+        return true;
     }
 
     private static String replaceUser(String pattern, String user)

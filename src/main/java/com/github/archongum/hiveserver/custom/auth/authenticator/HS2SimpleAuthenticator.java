@@ -29,7 +29,7 @@ public class HS2SimpleAuthenticator implements PasswdAuthenticationProvider {
                 log.warn("User: [{}] password incorrect", username);
                 throw new AuthenticationException(String.format("User: [%s] password incorrect", username));
             }
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             log.warn("User: [{}] login error: {}", username, e.getMessage());
             throw new AuthenticationException(String.format("User: [%s] login error: %s", username, e.getMessage()));
         }

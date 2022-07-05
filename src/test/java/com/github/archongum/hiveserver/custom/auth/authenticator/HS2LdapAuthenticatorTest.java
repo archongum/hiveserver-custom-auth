@@ -36,6 +36,6 @@ class HS2LdapAuthenticatorTest {
         String user = "test";
         String password = "test123";
         LdapAuthenticator inner = authenticator.getAuthenticator();
-        inner.authenticateWithBindDistinguishedName(user, password);
+        inner.authenticateWithBindDistinguishedNameWithoutMemberOf(user, password);
     }
 }

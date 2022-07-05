@@ -50,7 +50,7 @@ public class HS2LdapAuthenticator implements PasswdAuthenticationProvider {
     public void Authenticate(String username, String  password) throws AuthenticationException {
         try {
             authenticator.authenticateWithUserBind(username, password);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             log.warn("User: [{}] login error: {}", username, e.getMessage());
             throw new AuthenticationException(String.format("User: [%s] login error: %s", username, e.getMessage()));
         }

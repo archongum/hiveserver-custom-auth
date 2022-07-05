@@ -11,22 +11,21 @@
 
     <property>
         <name>hive.server2.custom.authentication.ldap.user-base-dn</name>
-        <value>ou=users,dc=org</value>
+        <value>ou=channel,dc=org</value>
     </property>
 
     <property>
         <name>hive.server2.custom.authentication.ldap.group-auth-pattern</name>
-        <value>(&amp;(memberOf=cn=trino,ou=channel,dc=org)(objectClass=inetOrgPerson)(cn=${USER}))</value>
+        <value>(&amp;(|(cn=trino)(cn=hive))(objectClass=groupOfNames)(member=cn=${USER},ou=users,dc=org))</value>
 <!--        <value>(&amp;(|(memberOf=cn=hive,ou=channel,dc=org)(memberOf=cn=trino,ou=channel,dc=org))(cn=${USER},ou=users,dc=org))</value>-->
     </property>
 
     <property>
         <name>hive.server2.custom.authentication.ldap.bind-dn</name>
-        <value>cn=admin,dc=org</value>
+        <value>cn=api_ro,ou=users,dc=org</value>
     </property>
 
     <property>
         <name>hive.server2.custom.authentication.ldap.bind-password</name>
-        <value>admin123</value>
     </property>
 </configuration>
