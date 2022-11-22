@@ -1,0 +1,10 @@
+<configuration>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.url</name>
+        <value>ldap://ldap_host:389</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-bind-pattern</name>
+        <value>uid=${USER},ou=employee,o=company_name</value>
+    </property>
+</configuration>

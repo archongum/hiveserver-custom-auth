@@ -32,7 +32,15 @@ class HS2LdapAuthenticatorTest {
     }
 
     @Test
-    void authGroup() throws AuthenticationException {
+    void authGroupMemberOf() throws AuthenticationException {
+        String user = "test";
+        String password = "test123";
+        LdapAuthenticator inner = authenticator.getAuthenticator();
+        inner.authenticateWithBindDistinguishedName(user, password);
+    }
+
+    @Test
+    void authGroupWithoutMemberOf() throws AuthenticationException {
         String user = "test";
         String password = "test123";
         LdapAuthenticator inner = authenticator.getAuthenticator();

@@ -66,6 +66,7 @@ public class LdapAuthenticator {
                     // user password is also validated as user DN and password is used for querying LDAP
                     String searchBase = userBaseDistinguishedName.get();
                     String groupSearch = replaceUser(groupAuthorizationSearchPattern.get(), user);
+                    System.out.println(String.format("searchBase: %s\ngroupSearch: %s", searchBase, groupSearch));
                     if (!client.isGroupMember(searchBase, groupSearch, userDistinguishedName, password)) {
                         String message = format("User [%s] not a member of an authorized group", user);
                         log.info("{}", message);
@@ -140,7 +141,13 @@ public class LdapAuthenticator {
     private String lookupUserDistinguishedName(String user) throws NamingException, AuthenticationException {
         String searchBase = userBaseDistinguishedName.get();
         String searchFilter = replaceUser(groupAuthorizationSearchPattern.get(), user);
+        System.out.println("searchBase: " + searchBase);
+        System.out.println("searchFilter: " + searchFilter);
         Set<String> userDistinguishedNames = client.lookupUserDistinguishedNames(searchBase, searchFilter, bindDistinguishedName.get(), bindPassword.get());
+        System.out.println(userDistinguishedNames.size());
+        userDistinguishedNames.forEach(s -> {
+            System.out.println(s);
+        });
 
         if (userDistinguishedNames.isEmpty()) {
             String message = format("User [%s] not a member of an authorized group", user);

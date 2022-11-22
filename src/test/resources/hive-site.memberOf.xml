@@ -1,0 +1,31 @@
+<configuration>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.url</name>
+        <value>ldap://192.168.10.5:389</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-bind-pattern</name>
+        <value>uid=${USER},ou=people,o=datastory</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-base-dn</name>
+        <value>ou=people,o=datastory</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.group-auth-pattern</name>
+        <value>(&amp;(uid=${USER})(!(gidNumber=10007))(memberOf=cn=channel,cn=grafana,ou=groups,ou=apps,o=datastory))</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.bind-dn</name>
+        <value>cn=api_channel,ou=users,ou=apps,o=datastory</value>
+    </property>
+
+    <property>
+        <name>hive.server2.custom.authentication.ldap.bind-password</name>
+        <value>xxxxxx</value>
+    </property>
+</configuration>
