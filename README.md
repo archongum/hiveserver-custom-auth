@@ -2,10 +2,17 @@
 
 # Compatibility
 
+Build with:
+
 - Hadoop 2.7
 - Hive 1.2
 
-For other version, change the hadoop/hive dependencies version in `pom.xml` then compile.
+Tested version:
+
+- HDP 2.6
+- Spark Thrift Server 3.3.2
+
+If not working, change the hadoop/hive dependencies version in `pom.xml` then compile.
 
 # Compile or Download
 
@@ -39,14 +46,17 @@ It's self-authenticated with a simple rule which can be improvised also.
 Add to `hive-site.xml` and Restart `HiveServer2`
 
 ```xml
-<property>
-  <name>hive.server2.authentication</name>
-  <value>CUSTOM</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.class</name>
-  <value>com.github.archongum.hiveserver.custom.auth.authenticator.HS2SimpleAuthenticator</value>
-</property>
+
+<configuration>
+    <property>
+        <name>hive.server2.authentication</name>
+        <value>CUSTOM</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.class</name>
+        <value>com.github.archongum.hiveserver.custom.auth.authenticator.HS2SimpleAuthenticator</value>
+    </property>
+</configuration>
 ```
 
 ### 2. Authentication
@@ -68,7 +78,6 @@ $ echo -n "hive" | base64
 aGl2ZQ==
 ```
 
-
 ## HS2LdapAuthenticator
 
 This authenticator requires a `LDAP` server.
@@ -85,65 +94,71 @@ Add to `hive-site.xml` and Restart `HiveServer2`
 #### user-pattern
 
 ```xml
-<!-- hive conf -->
-<property>
-  <name>hive.server2.authentication</name>
-  <value>CUSTOM</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.class</name>
-  <value>com.github.archongum.hiveserver.custom.auth.authenticator.HS2LdapAuthenticator</value>
-</property>
 
-<!-- HS2LdapAuthenticator conf -->
-<property>
-  <name>hive.server2.custom.authentication.ldap.url</name>
-  <value>ldap://ldap_host:389</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.ldap.user-bind-pattern</name>
-  <value>uid=${USER},ou=employee,o=company_name</value>
-</property>
+<configuration>
+    <!-- hive conf -->
+    <property>
+        <name>hive.server2.authentication</name>
+        <value>CUSTOM</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.class</name>
+        <value>com.github.archongum.hiveserver.custom.auth.authenticator.HS2LdapAuthenticator</value>
+    </property>
+
+    <!-- HS2LdapAuthenticator conf -->
+    <property>
+        <name>hive.server2.custom.authentication.ldap.url</name>
+        <value>ldap://ldap_host:389</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-bind-pattern</name>
+        <value>uid=${USER},ou=employee,o=company_name</value>
+    </property>
+</configuration>
 ```
 
 #### group-pattern
 
 ```xml
-<!-- hive conf -->
-<property>
-  <name>hive.server2.authentication</name>
-  <value>CUSTOM</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.class</name>
-  <value>com.github.archongum.hiveserver.custom.auth.authenticator.HS2LdapAuthenticator</value>
-</property>
 
-<!-- HS2LdapAuthenticator conf -->
-<property>
-  <name>hive.server2.custom.authentication.ldap.url</name>
-  <value>ldap://ldap_host:389</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.ldap.user-bind-pattern</name>
-  <value>uid=${USER},ou=employee,o=company_name</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.ldap.user-base-dn</name>
-  <value>ou=employee,o=company_name</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.ldap.group-auth-pattern</name>
-  <value>(&amp;(uid=${USER})(!(gidNumber=10007))(memberOf=cn=grafana,ou=groups,ou=apps,o=company_name))</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.ldap.bind-dn</name>
-  <value>cn=ldap_auth_user01,ou=users,ou=apps,o=company_name</value>
-</property>
-<property>
-  <name>hive.server2.custom.authentication.ldap.bind-password</name>
-  <value>ldap_auth_user01_password</value>
-</property>
+<configuration>
+    <!-- hive conf -->
+    <property>
+        <name>hive.server2.authentication</name>
+        <value>CUSTOM</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.class</name>
+        <value>com.github.archongum.hiveserver.custom.auth.authenticator.HS2LdapAuthenticator</value>
+    </property>
+
+    <!-- HS2LdapAuthenticator conf -->
+    <property>
+        <name>hive.server2.custom.authentication.ldap.url</name>
+        <value>ldap://ldap_host:389</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-bind-pattern</name>
+        <value>uid=${USER},ou=employee,o=company_name</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.user-base-dn</name>
+        <value>ou=employee,o=company_name</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.group-auth-pattern</name>
+        <value>(&amp;(uid=${USER})(!(gidNumber=10007))(memberOf=cn=grafana,ou=groups,ou=apps,o=company_name))</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.bind-dn</name>
+        <value>cn=ldap_auth_user01,ou=users,ou=apps,o=company_name</value>
+    </property>
+    <property>
+        <name>hive.server2.custom.authentication.ldap.bind-password</name>
+        <value>ldap_auth_user01_password</value>
+    </property>
+</configuration>
 ```
 
 #### 2. Authentication
